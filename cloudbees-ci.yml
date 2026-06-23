@@ -1,0 +1,18 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline-backend-node
+spec:
+  stages:
+    - name: Construir y Probar con Docker
+      steps:
+        - name: Clonar codigo
+          uses: cloudbees-io/checkout@v1
+        
+        - name: Build de la Imagen
+          shell: bash
+          run: docker build -t mi-app-node:latest .
+
+        - name: Correr Pruebas en Contenedor
+          shell: bash
+          run: docker run --rm mi-app-node:latest npm test
